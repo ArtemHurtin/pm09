@@ -1,71 +1,76 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
-
-const connectDB = require('./config/database');
-
-// Подключение к базе данных
-connectDB();
-
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Временные маршруты
-app.get('/api/reservations', (req, res) => {
+// Временные данные вместо MongoDB
+const menuItems = [
+  { 
+    id: 1, 
+    name: "Эспрессо", 
+    price: 180, 
+    category: "coffee",
+    description: "Классический крепкий кофе",
+    image: "/images/menu/coffee/espresso.jpg",
+    available: true
+  },
+  { 
+    id: 2, 
+    name: "Капучино", 
+    price: 220, 
+    category: "coffee",
+    description: "Кофе с молочной пенкой", 
+    image: "/images/menu/coffee/cappuccino.jpg",
+    available: true
+  },
+  { 
+    id: 3, 
+    name: "Чизкейк", 
+    price: 280, 
+    category: "desserts",
+    description: "Нежный сырный десерт",
+    image: "/images/menu/desserts/cheesecake.jpg",
+    available: true
+  }
+];
+
+const reservations = [];
+const reviews = [];
+const events = [];
+
+// Маршруты
+app.get('/', (req, res) => {
   res.json({ 
-    success: true, 
-    data: [], 
-    message: 'Reservations endpoint' 
+    message: ' Coffee & Books API is running!',
+    status: 'OK'
   });
 });
 
 app.get('/api/menu', (req, res) => {
-  res.json({ 
-    success: true, 
-    data: [
-      { 
-        id: 1, 
-        name: "Эспрессо", 
-        price: 180, 
-        category: "coffee",
-        description: "Классический крепкий кофе",
-        image: "/images/menu/coffee/espresso.jpg"
-      },
-      { 
-        id: 2, 
-        name: "Капучино", 
-        price: 220, 
-        category: "coffee",
-        description: "Кофе с молочной пенкой",
-        image: "/images/menu/coffee/cappuccino.jpg"
-      },
-      { 
-        id: 3, 
-        name: "Чизкейк", 
-        price: 280, 
-        category: "desserts",
-        description: "Нежный сырный десерт", 
-        image: "/images/menu/desserts/cheesecake.jpg"
-      }
-    ] 
-  });
+  res.json({ success: true, data: menuItems });
+});
+
+app.get('/api/menu/category/:category', (req, res) => {
+  const categoryItems = menuItems.filter(item => item.category === req.params.category);
+  res.json({ success: true, data: categoryItems });
 });
 
 app.post('/api/reservations', (req, res) => {
-  const reservation = {
-    id: Date.now(),
-    ...req.body,
+  const reservation = { 
+    id: Date.now(), 
+    ...req.body, 
     status: 'pending',
     createdAt: new Date()
   };
-  res.json({ 
-    success: true, 
-    data: reservation, 
-    message: 'Бронирование создано!' 
-  });
+  reservations.push(reservation);
+  res.json({ success: true, data: reservation, message: 'Бронирование создано!' });
+});
+
+app.get('/api/reservations', (req, res) => {
+  res.json({ success: true, data: reservations });
 });
 
 app.get('/api/events', (req, res) => {
@@ -79,11 +84,15 @@ app.get('/api/events', (req, res) => {
         date: "2024-02-15",
         time: "19:00",
         image: "/images/events/book-club.jpg",
-        type: "book_club"
+        type: "book_club",
+        active: true
       }
-    ], 
-    message: 'Events endpoint' 
+    ]
   });
+});
+
+app.post('/api/events/:id/register', (req, res) => {
+  res.json({ success: true, message: 'Регистрация прошла успешно!' });
 });
 
 app.get('/api/reviews', (req, res) => {
@@ -95,60 +104,47 @@ app.get('/api/reviews', (req, res) => {
         author: "Анна",
         rating: 5,
         comment: "Отличное место! Кофе вкусный, атмосфера уютная.",
+        approved: true,
         createdAt: new Date()
       }
-    ], 
-    message: 'Reviews endpoint' 
+    ]
   });
 });
 
 app.post('/api/reviews', (req, res) => {
-  const review = {
-    id: Date.now(),
-    ...req.body,
+  const review = { 
+    id: Date.now(), 
+    ...req.body, 
     approved: false,
     createdAt: new Date()
   };
-  res.json({ 
-    success: true, 
-    data: review, 
-    message: 'Отзыв отправлен на модерацию!' 
-  });
+  reviews.push(review);
+  res.json({ success: true, data: review, message: 'Отзыв отправлен на модерацию!' });
 });
 
 app.get('/api/orders', (req, res) => {
-  res.json({ 
-    success: true, 
-    data: [], 
-    message: 'Orders endpoint' 
-  });
+  res.json({ success: true, data: [] });
 });
 
-// Основной маршрут
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'Coffee & Books API is running!',
-    description: 'Backend for Coffee & Books cafe',
-    version: '1.0.0',
-    endpoints: {
-      reservations: '/api/reservations',
-      menu: '/api/menu', 
-      events: '/api/events',
-      reviews: '/api/reviews',
-      orders: '/api/orders'
-    }
-  });
+app.post('/api/orders', (req, res) => {
+  const order = { 
+    id: Date.now(), 
+    ...req.body, 
+    status: 'pending',
+    createdAt: new Date()
+  };
+  res.json({ success: true, data: order, message: 'Заказ создан!' });
 });
 
-// Обработчик 404
-app.use('', (req, res) => {
+// 404 handler
+app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
     message: 'API endpoint not found'
   });
 });
 
-// Обработчик ошибок
+// Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
@@ -157,10 +153,11 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = 5000; // Просто жестко задаем порт
+const PORT = 5000;
 
 app.listen(PORT, () => {
   console.log(` Coffee & Books Server is running on port ${PORT}`);
-  console.log(`API available at: http://localhost:${PORT}/api`);
-  console.log(`Test: http://localhost:${PORT}/api/menu`);
+  console.log(` API: http://localhost:${PORT}/api`);
+  console.log(` Меню: http://localhost:${PORT}/api/menu`);
+  console.log(` Работает БЕЗ MongoDB - все данные в памяти`);
 });
