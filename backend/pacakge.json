@@ -1,5 +1,5 @@
 {
-  "name": "coffee-books-backend",
+  "name": "coffee-books",
   "version": "1.0.0",
   "description": "Backend for Coffee & Books cafe",
   "main": "server.js",
