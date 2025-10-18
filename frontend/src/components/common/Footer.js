@@ -17,10 +17,7 @@ const Footer = () => {
             <div className="social-links">
               <a href="https://vk.com" target="_blank" rel="noopener noreferrer" className="social-link">
                 VK
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-link">
-                Instagram
-              </a>
+                </a>
               <a href="https://telegram.org" target="_blank" rel="noopener noreferrer" className="social-link">
                 Telegram
               </a>
