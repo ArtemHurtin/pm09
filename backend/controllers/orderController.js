@@ -7,13 +7,13 @@ exports.createOrder = async (req, res) => {
     await order.save();
     
     // Здесь можно добавить логику отправки уведомлений
-    console.log(`New order created: ${order._id}`);
-    
-    res.status(201).json({
-      success: true,
-      message: 'Заказ успешно создан!',
-      data: order
-    });
+    console.log(` New order at Coffee & Books: ${order._id}`);
+
+res.status(201).json({
+  success: true,
+  message: 'Заказ в Coffee & Books успешно создан!',
+  data: order
+});
   } catch (error) {
     res.status(400).json({
       success: false,

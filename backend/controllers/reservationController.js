@@ -12,7 +12,7 @@ exports.createReservation = async (req, res) => {
     res.status(201).json({
       success: true,
       data: reservation,
-      message: 'Бронирование успешно создано!'
+      message: 'Бронирование в Coffee & Books успешно создано!'
     });
   } catch (error) {
     res.status(400).json({
