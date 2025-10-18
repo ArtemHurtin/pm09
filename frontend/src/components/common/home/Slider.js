@@ -9,7 +9,7 @@ const Slider = () => {
       id: 1,
       title: "Скидка 20% на все авторские кофе",
       description: "Только этой неделей попробуйте наши новые авторские напитки",
-      image: "/images/slide1.jpg",
+      image: "/images/slides/slide1.jpg",
       buttonText: "Посмотреть меню",
       link: "/menu"
     },
@@ -17,7 +17,7 @@ const Slider = () => {
       id: 2,
       title: "Книжный клуб каждую субботу",
       description: "Присоединяйтесь к нашему книжному клубу и обсуждайте интересные книги",
-      image: "/images/slide2.jpg",
+      image: "/images/slides/slide2.jpg", 
       buttonText: "Узнать больше",
       link: "/events"
     },
@@ -25,12 +25,12 @@ const Slider = () => {
       id: 3,
       title: "Новые веганские десерты",
       description: "Попробуйте нашу новую линейку веганских десертов",
-      image: "/images/slide3.jpg",
+      image: "/images/slides/slide3.jpg",
       buttonText: "Посмотреть",
       link: "/menu"
     }
   ];
-
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);

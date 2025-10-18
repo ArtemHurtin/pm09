@@ -4,7 +4,12 @@ import './HeroSection.css';
 
 const HeroSection = () => {
   return (
-    <section className="hero">
+    <section 
+      className="hero"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/images/heroes/hero-bg.jpg')`
+      }}
+    >
       <div className="hero-content">
         <h1 className="hero-title">
           Добро пожаловать в Coffee & Books
