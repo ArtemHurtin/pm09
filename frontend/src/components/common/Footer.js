@@ -43,11 +43,11 @@ const Footer = () => {
             <div className="contact-info">
               <div className="contact-item">
                 <span className="contact-icon"> </span>
-                <span>г.Калуга, ул. Автозаводская 15, 8-956-123-00-05</span>
+                <span>г.Калуга, ул. Автозаводская 15</span>
               </div>
               <div className="contact-item">
                 <span className="contact-icon"> </span>
-                <span>+7 (495) 123-45-67</span>
+                <span>8-956-123-00-05</span>
               </div>
               <div className="contact-item">
                 <span className="contact-icon"> </span>
