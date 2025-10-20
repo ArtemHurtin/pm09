@@ -1,6 +1,8 @@
 {
   "name": "coffee-books-backend",
   "version": "1.0.0",
+  "description": "Backend for Coffee & Books cafe",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js"
